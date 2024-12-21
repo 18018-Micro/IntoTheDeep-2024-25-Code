@@ -6,7 +6,7 @@ public class testOpMode extends LinearOpMode {
 
 
     @Override
-    public void runOpMode() {
+    private void runOpMode() {
 
     }
 }
