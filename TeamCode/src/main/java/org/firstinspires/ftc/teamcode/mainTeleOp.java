@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+@TeleOp(name = "mainTeleOp", group = "")
 public class mainTeleOp extends LinearOpMode {
 
     // This function is executed when this Op Mode is selected from the Driver Station.
@@ -46,7 +47,6 @@ public class mainTeleOp extends LinearOpMode {
                 double rotate = 0;
                 boolean rotating;
                 turningPower = 0.85;
-                int slowDriveLimiter = 4;
 
                 // If either our the bumpers are pressed, rotate the robot in that direction.
                 if (gamepad1.right_bumper) {
