@@ -21,17 +21,21 @@ public class mainTeleOp extends LinearOpMode {
         double cm4_target;
         double turningPower;
         double powerLimiter = 0.85;
+        int intakeTargetPos = 0;
 
         DcMotor cm1 = hardwareMap.dcMotor.get("chm1");
         DcMotor cm2 = hardwareMap.dcMotor.get("chm2");
         DcMotor cm3 = hardwareMap.dcMotor.get("chm3");
         DcMotor cm4 = hardwareMap.dcMotor.get("chm4");
+        Servo intakeServoL = hardwareMap.servo.get("intakeServoL");
+        Servo intakeServoR = hardwareMap.servo.get("intakeServoR");
 
 
         cm1.setDirection(DcMotorSimple.Direction.REVERSE);
         cm2.setDirection(DcMotorSimple.Direction.FORWARD);
         cm3.setDirection(DcMotorSimple.Direction.REVERSE);
         cm4.setDirection(DcMotorSimple.Direction.REVERSE);
+        intakeServoR.setDirection(Servo.Direction.REVERSE);
 
 
         waitForStart();
@@ -120,6 +124,16 @@ public class mainTeleOp extends LinearOpMode {
                 cm3.setPower(cm3_target * powerLimiter);
                 cm4.setPower(cm4_target * powerLimiter);
 
+
+                if (gamepad1.a) {
+                    intakeTargetPos += 1;
+                    intakeServoL.setPosition(intakeTargetPos);
+                    intakeServoR.setPosition(intakeTargetPos);
+                } if (gamepad1.b) {
+                    intakeTargetPos -= 1;
+                    intakeServoL.setPosition(intakeTargetPos);
+                    intakeServoR.setPosition(intakeTargetPos);
+                }
 
 
                 // Add telemetry data, so we can observe what is happening on the Driver app
