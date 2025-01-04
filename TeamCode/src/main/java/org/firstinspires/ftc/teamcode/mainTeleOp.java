@@ -27,25 +27,36 @@ public class mainTeleOp extends LinearOpMode {
         DcMotor cm2 = hardwareMap.dcMotor.get("chm2");
         DcMotor cm3 = hardwareMap.dcMotor.get("chm3");
         DcMotor cm4 = hardwareMap.dcMotor.get("chm4");
-        Servo intakeServoL = hardwareMap.servo.get("intakeServoL");
-        Servo intakeServoR = hardwareMap.servo.get("intakeServoR");
+//        Servo intakeServoL = hardwareMap.servo.get("intakeServoL");
+//        Servo intakeServoR = hardwareMap.servo.get("intakeServoR");
+//        DcMotorEx armExtender = (DcMotorEx) hardwareMap.dcMotor.get("armExtender");
+//        DcMotorEx armAngle = (DcMotorEx) hardwareMap.dcMotor.get("armAngle");
 
 
         cm1.setDirection(DcMotorSimple.Direction.REVERSE);
         cm2.setDirection(DcMotorSimple.Direction.FORWARD);
-        cm3.setDirection(DcMotorSimple.Direction.REVERSE);
+        cm3.setDirection(DcMotorSimple.Direction.FORWARD);
         cm4.setDirection(DcMotorSimple.Direction.REVERSE);
-        intakeServoR.setDirection(Servo.Direction.REVERSE);
+//        intakeServoR.setDirection(Servo.Direction.REVERSE);
+//
+//        armExtender.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        armExtender.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        armAngle.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        armAngle.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
         waitForStart();
         if (opModeIsActive()) {
 
             while (opModeIsActive()) {
-                // Control Hub
-                // Back left:cm1, back right:cm2
-                // Front left:cm3, front right:cm4
-                // Expansion Hub:
+                /*
+                Control Hub
+                    Back left:cm1, back right:cm2
+                    Front left:cm3, front right:cm4
+                Expansion Hub:
+                    0: armExtender
+                    1: armAngle
+                 */
 
                 //turning script
                 double rotate = 0;
@@ -124,16 +135,16 @@ public class mainTeleOp extends LinearOpMode {
                 cm3.setPower(cm3_target * powerLimiter);
                 cm4.setPower(cm4_target * powerLimiter);
 
-
-                if (gamepad1.a) {
-                    intakeTargetPos += 1;
-                    intakeServoL.setPosition(intakeTargetPos);
-                    intakeServoR.setPosition(intakeTargetPos);
-                } if (gamepad1.b) {
-                    intakeTargetPos -= 1;
-                    intakeServoL.setPosition(intakeTargetPos);
-                    intakeServoR.setPosition(intakeTargetPos);
-                }
+//
+//                if (gamepad1.a) {
+//                    intakeTargetPos += 1;
+//                    intakeServoL.setPosition(intakeTargetPos);
+//                    intakeServoR.setPosition(intakeTargetPos);
+//                } if (gamepad1.b) {
+//                    intakeTargetPos -= 1;
+//                    intakeServoL.setPosition(intakeTargetPos);
+//                    intakeServoR.setPosition(intakeTargetPos);
+//                }
 
 
                 // Add telemetry data, so we can observe what is happening on the Driver app
