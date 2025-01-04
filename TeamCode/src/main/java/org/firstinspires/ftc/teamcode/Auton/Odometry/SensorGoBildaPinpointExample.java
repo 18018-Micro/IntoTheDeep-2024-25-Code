@@ -20,7 +20,7 @@
  *   SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Auton.Odometry;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -90,16 +90,8 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
         the tracking point the Y (strafe) odometry pod is. forward of center is a positive number,
         backwards is a negative number.
          */
-        odo.setOffsets(-84.0, -168.0); //these are tuned for 3110-0002-0001 Product Insight #1
-
-        /*
-        Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either
-        the goBILDA_SWINGARM_POD, or the goBILDA_4_BAR_POD.
-        If you're using another kind of odometry pod, uncomment setEncoderResolution and input the
-        number of ticks per mm of your odometry pod.
-         */
+        odo.setOffsets(-50.0, 75); //these are tuned for 3110-0002-0001 Product Insight #1
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        //odo.setEncoderResolution(13.26291192);
 
 
         /*
