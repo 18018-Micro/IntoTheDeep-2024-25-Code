@@ -1,25 +1,3 @@
-/*   MIT License
- *   Copyright (c) [2024] [Base 10 Assets, LLC]
- *
- *   Permission is hereby granted, free of charge, to any person obtaining a copy
- *   of this software and associated documentation files (the "Software"), to deal
- *   in the Software without restriction, including without limitation the rights
- *   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- *   copies of the Software, and to permit persons to whom the Software is
- *   furnished to do so, subject to the following conditions:
-
- *   The above copyright notice and this permission notice shall be included in all
- *   copies or substantial portions of the Software.
-
- *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- *   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- *   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- *   SOFTWARE.
- */
-
 package org.firstinspires.ftc.teamcode.Auton.Odometry;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -32,31 +10,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
 import java.util.Locale;
 
-/*
-This opmode shows how to use the goBILDA® Pinpoint Odometry Computer.
-The goBILDA Odometry Computer is a device designed to solve the Pose Exponential calculation
-commonly associated with Dead Wheel Odometry systems. It reads two encoders, and an integrated
-system of senors to determine the robot's current heading, X position, and Y position.
-
-it uses an ESP32-S3 as a main cpu, with an STM LSM6DSV16X IMU.
-It is validated with goBILDA "Dead Wheel" Odometry pods, but should be compatible with any
-quadrature rotary encoder. The ESP32 PCNT peripheral is speced to decode quadrature encoder signals
-at a maximum of 40mhz per channel. Though the maximum in-application tested number is 130khz.
-
-The device expects two perpendicularly mounted Dead Wheel pods. The encoder pulses are translated
-into mm and their readings are transformed by an "offset", this offset describes how far away
-the pods are from the "tracking point", usually the center of rotation of the robot.
-
-Dead Wheel pods should both increase in count when moved forwards and to the left.
-The gyro will report an increase in heading when rotated counterclockwise.
-
-The Pose Exponential algorithm used is described on pg 181 of this book:
-https://github.com/calcmogul/controls-engineering-in-frc
-
-For support, contact tech@gobilda.com
-
--Ethan Doak
- */
 
 @TeleOp(name="goBILDA® PinPoint Odometry Example", group="Linear OpMode")
 //@Disabled
@@ -65,11 +18,11 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
 
     GoBildaPinpointDriver odo; // Declare OpMode member for the Odometry Computer
 
-
-    DcMotor cm1 = hardwareMap.dcMotor.get("chm1");
-    DcMotor cm2 = hardwareMap.dcMotor.get("chm2");
-    DcMotor cm3 = hardwareMap.dcMotor.get("chm3");
-    DcMotor cm4 = hardwareMap.dcMotor.get("chm4");
+//
+//    DcMotor cm1 = hardwareMap.dcMotor.get("chm1");
+//    DcMotor cm2 = hardwareMap.dcMotor.get("chm2");
+//    DcMotor cm3 = hardwareMap.dcMotor.get("chm3");
+//    DcMotor cm4 = hardwareMap.dcMotor.get("chm4");
 
     double oldTime = 0;
 
@@ -80,7 +33,7 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
 
-        odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
+        odo = hardwareMap.get(GoBildaPinpointDriver.class,"odometryComputer");
 
         /*
         Set the odometry pod positions relative to the point that the odometry computer tracks around.
@@ -140,7 +93,7 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
              */
             //odo.update(GoBildaPinpointDriver.readData.ONLY_UPDATE_HEADING);
 
-
+            /*
             if (gamepad1.a){
                 odo.resetPosAndIMU(); //resets the position to 0 and recalibrates the IMU
             }
@@ -148,7 +101,7 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
             if (gamepad1.b){
                 odo.recalibrateIMU(); //recalibrates the IMU without resetting position
             }
-
+            */
             /*
             This code prints the loop frequency of the REV Control Hub. This frequency is effected
             by I²C reads/writes. So it's good to keep an eye on. This code calculates the amount
