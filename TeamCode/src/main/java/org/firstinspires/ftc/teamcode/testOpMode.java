@@ -1,20 +1,34 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import  com.qualcomm.robotcore.hardware.DcMotorEx;
 
+@TeleOp(name = "testOpMode", group = "")
 public class testOpMode extends LinearOpMode {
 
-    DcMotor testMotor = hardwareMap.dcMotor.get("testMotor");
+
+    DcMotorEx armEx = (DcMotorEx) hardwareMap.dcMotor.get("armExtender");
+    DcMotorEx armAngle = (DcMotorEx) hardwareMap.dcMotor.get("armAngle");
+
     @Override
     public void runOpMode() {
 
         if (gamepad1.a) {
-            testMotor.setPower(0.8);
+            armAngle.setPower(0.5);
         } else if (gamepad1.b) {
-            testMotor.setPower(-0.8);
+            armAngle.setPower(-0.5);
         } else {
-            testMotor.setPower(0);
+            armAngle.setPower(0);
+        }
+
+        if (gamepad1.left_stick_y > 0.1) {
+            armEx.setPower(0.5);
+        } else if (gamepad1.left_stick_y < -0.1) {
+            armEx.setPower(-0.5);
+        } else {
+            armEx.setPower(0);
         }
 
     }
