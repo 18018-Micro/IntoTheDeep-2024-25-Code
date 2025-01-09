@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+@TeleOp(name = "mainTeleOp", group = "")
 public class mainTeleOp extends LinearOpMode {
 
     // This function is executed when this Op Mode is selected from the Driver Station.
@@ -20,33 +21,48 @@ public class mainTeleOp extends LinearOpMode {
         double cm4_target;
         double turningPower;
         double powerLimiter = 0.85;
+        int intakeTargetPos = 0;
 
         DcMotor cm1 = hardwareMap.dcMotor.get("chm1");
         DcMotor cm2 = hardwareMap.dcMotor.get("chm2");
         DcMotor cm3 = hardwareMap.dcMotor.get("chm3");
         DcMotor cm4 = hardwareMap.dcMotor.get("chm4");
+        Servo intakeServoL = hardwareMap.servo.get("intakeServoL");
+        Servo intakeServoR = hardwareMap.servo.get("intakeServoR");
+//        DcMotorEx armExtender = (DcMotorEx) hardwareMap.dcMotor.get("armExtender");
+//        DcMotorEx armAngle = (DcMotorEx) hardwareMap.dcMotor.get("armAngle");
 
 
         cm1.setDirection(DcMotorSimple.Direction.REVERSE);
         cm2.setDirection(DcMotorSimple.Direction.FORWARD);
-        cm3.setDirection(DcMotorSimple.Direction.REVERSE);
+        cm3.setDirection(DcMotorSimple.Direction.FORWARD);
         cm4.setDirection(DcMotorSimple.Direction.REVERSE);
+        intakeServoR.setDirection(Servo.Direction.REVERSE);
+        intakeServoL.setDirection(Servo.Direction.FORWARD);
+//
+//        armExtender.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        armExtender.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        armAngle.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        armAngle.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
         waitForStart();
         if (opModeIsActive()) {
 
             while (opModeIsActive()) {
-                // Control Hub
-                // Back left:cm1, back right:cm2
-                // Front left:cm3, front right:cm4
-                // Expansion Hub:
+                /*
+                Control Hub
+                    Back left:cm1, back right:cm2
+                    Front left:cm3, front right:cm4
+                Expansion Hub:
+                    0: armExtender
+                    1: armAngle
+                 */
 
                 //turning script
                 double rotate = 0;
                 boolean rotating;
                 turningPower = 0.85;
-                int slowDriveLimiter = 4;
 
                 // If either our the bumpers are pressed, rotate the robot in that direction.
                 if (gamepad1.right_bumper) {
@@ -121,6 +137,16 @@ public class mainTeleOp extends LinearOpMode {
                 cm4.setPower(cm4_target * powerLimiter);
 
 
+                if (gamepad1.a) {
+                    intakeTargetPos += 1;
+                    intakeServoL.setPosition(intakeTargetPos);
+                    intakeServoR.setPosition(intakeTargetPos);
+                } if (gamepad1.b) {
+                    intakeTargetPos -= 1;
+                    intakeServoL.setPosition(intakeTargetPos);
+                    intakeServoR.setPosition(intakeTargetPos);
+                }
+
 
                 // Add telemetry data, so we can observe what is happening on the Driver app
 //                telemetry.addData("cm1", cm1_target);
@@ -128,6 +154,7 @@ public class mainTeleOp extends LinearOpMode {
 //                telemetry.addData("cm3", cm3_target);
 //                telemetry.addData("cm4", cm4_target);
 //                telemetry.addData("rotating", rotating);
+                telemetry.addData("servoTargetPos", intakeTargetPos);
                 telemetry.update();
             }
         }
