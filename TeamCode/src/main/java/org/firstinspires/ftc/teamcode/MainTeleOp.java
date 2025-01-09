@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name = "mainTeleOp", group = "")
-public class mainTeleOp extends LinearOpMode {
+public class MainTeleOp extends LinearOpMode {
 
     // This function is executed when this Op Mode is selected from the Driver Station.
     @Override
@@ -29,8 +29,8 @@ public class mainTeleOp extends LinearOpMode {
         DcMotor cm4 = hardwareMap.dcMotor.get("chm4");
         Servo intakeServoL = hardwareMap.servo.get("intakeServoL");
         Servo intakeServoR = hardwareMap.servo.get("intakeServoR");
-//        DcMotorEx armExtender = (DcMotorEx) hardwareMap.dcMotor.get("armExtender");
-//        DcMotorEx armAngle = (DcMotorEx) hardwareMap.dcMotor.get("armAngle");
+        DcMotorEx armExtender = (DcMotorEx) hardwareMap.dcMotor.get("armExtender");
+        DcMotorEx armAngle = (DcMotorEx) hardwareMap.dcMotor.get("armAngle");
 
 
         cm1.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -39,11 +39,11 @@ public class mainTeleOp extends LinearOpMode {
         cm4.setDirection(DcMotorSimple.Direction.REVERSE);
         intakeServoR.setDirection(Servo.Direction.REVERSE);
         intakeServoL.setDirection(Servo.Direction.FORWARD);
-//
-//        armExtender.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        armExtender.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        armAngle.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        armAngle.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        armExtender.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armExtender.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armAngle.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armAngle.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
         waitForStart();
@@ -148,7 +148,7 @@ public class mainTeleOp extends LinearOpMode {
                 }
 
 
-                // Add telemetry data, so we can observe what is happening on the Driver app
+                // Add telemetry data, so we can observe what is happening on the Driver Station
 //                telemetry.addData("cm1", cm1_target);
 //                telemetry.addData("cm2", cm2_target);
 //                telemetry.addData("cm3", cm3_target);
