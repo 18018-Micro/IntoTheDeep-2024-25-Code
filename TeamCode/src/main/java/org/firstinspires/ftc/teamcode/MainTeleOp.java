@@ -15,28 +15,28 @@ public class MainTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        double cm1_target;
-        double cm2_target;
-        double cm3_target;
-        double cm4_target;
+        double backLeft_target;
+        double backRight_target;
+        double frontLeft_target;
+        double frontRight_target;
         double turningPower;
         double powerLimiter = 0.85;
         int intakeTargetPos = 0;
 
-        DcMotor cm1 = hardwareMap.dcMotor.get("chm1");
-        DcMotor cm2 = hardwareMap.dcMotor.get("chm2");
-        DcMotor cm3 = hardwareMap.dcMotor.get("chm3");
-        DcMotor cm4 = hardwareMap.dcMotor.get("chm4");
+        DcMotor backLeft = hardwareMap.dcMotor.get("backLeft");
+        DcMotor backRight = hardwareMap.dcMotor.get("backRight");
+        DcMotor frontLeft = hardwareMap.dcMotor.get("frontLeft");
+        DcMotor frontRight = hardwareMap.dcMotor.get("frontRight");
         Servo intakeServoL = hardwareMap.servo.get("intakeServoL");
         Servo intakeServoR = hardwareMap.servo.get("intakeServoR");
         DcMotorEx armExtender = (DcMotorEx) hardwareMap.dcMotor.get("armExtender");
         DcMotorEx armAngle = (DcMotorEx) hardwareMap.dcMotor.get("armAngle");
 
 
-        cm1.setDirection(DcMotorSimple.Direction.REVERSE);
-        cm2.setDirection(DcMotorSimple.Direction.FORWARD);
-        cm3.setDirection(DcMotorSimple.Direction.FORWARD);
-        cm4.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         intakeServoR.setDirection(Servo.Direction.REVERSE);
         intakeServoL.setDirection(Servo.Direction.FORWARD);
 
@@ -52,8 +52,8 @@ public class MainTeleOp extends LinearOpMode {
             while (opModeIsActive()) {
                 /*
                 Control Hub
-                    Back left:cm1, back right:cm2
-                    Front left:cm3, front right:cm4
+                    Back left:backLeft, back right:backRight
+                    Front left:frontLeft, front right:frontRight
                 Expansion Hub:
                     0: armExtender
                     1: armAngle
@@ -94,47 +94,47 @@ public class MainTeleOp extends LinearOpMode {
                 if ((Math.abs(gamepad1.left_stick_x) + Math.abs(gamepad1.left_stick_y) > 0.15) || rotating || straight) {
                     if (gamepad1.left_stick_x >= 0 && -gamepad1.left_stick_y >= 0) {
                         // Quadrant I
-                        cm1_target = Math.pow(gamepad1.left_stick_x, 2) - Math.pow(gamepad1.left_stick_y, 2) + (rotate) + (-straightPwr);
-                        cm2_target = -Math.pow(gamepad1.left_stick_x, 2) - Math.pow(gamepad1.left_stick_y, 2) + (-rotate) + (-straightPwr);
-                        cm3_target = Math.pow(gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2) + (-rotate) + (straightPwr);
-                        cm4_target = -Math.pow(gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2) + (rotate) + (straightPwr);
+                        backLeft_target = Math.pow(gamepad1.left_stick_x, 2) - Math.pow(gamepad1.left_stick_y, 2) + (rotate) + (-straightPwr);
+                        backRight_target = -Math.pow(gamepad1.left_stick_x, 2) - Math.pow(gamepad1.left_stick_y, 2) + (-rotate) + (-straightPwr);
+                        frontLeft_target = Math.pow(gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2) + (-rotate) + (straightPwr);
+                        frontRight_target = -Math.pow(gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2) + (rotate) + (straightPwr);
                     } else if (gamepad1.left_stick_x < 0 && -gamepad1.left_stick_y > 0) {
                         // Quadrant II
-                        cm1_target = -Math.pow(gamepad1.left_stick_x, 2) - Math.pow(gamepad1.left_stick_y, 2) + (rotate) + (-straightPwr);
-                        cm2_target = Math.pow(gamepad1.left_stick_x, 2) - Math.pow(gamepad1.left_stick_y, 2) + (-rotate) + (-straightPwr);
-                        cm3_target = -Math.pow(gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2) + (-rotate) + (straightPwr);
-                        cm4_target = Math.pow(gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2) + (rotate) + (straightPwr);
+                        backLeft_target = -Math.pow(gamepad1.left_stick_x, 2) - Math.pow(gamepad1.left_stick_y, 2) + (rotate) + (-straightPwr);
+                        backRight_target = Math.pow(gamepad1.left_stick_x, 2) - Math.pow(gamepad1.left_stick_y, 2) + (-rotate) + (-straightPwr);
+                        frontLeft_target = -Math.pow(gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2) + (-rotate) + (straightPwr);
+                        frontRight_target = Math.pow(gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2) + (rotate) + (straightPwr);
                     } else if (gamepad1.left_stick_x <= 0 && -gamepad1.left_stick_y <= 0) {
                         // Quadrant III
-                        cm1_target = -Math.pow(gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2) + (rotate) + (-straightPwr);
-                        cm2_target = Math.pow(gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2) + (-rotate) + (-straightPwr);
-                        cm3_target = -Math.pow(gamepad1.left_stick_x, 2) - Math.pow(gamepad1.left_stick_y, 2) + (-rotate) + (straightPwr);
-                        cm4_target = Math.pow(gamepad1.left_stick_x, 2) - Math.pow(gamepad1.left_stick_y, 2) + (rotate) + (straightPwr);
+                        backLeft_target = -Math.pow(gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2) + (rotate) + (-straightPwr);
+                        backRight_target = Math.pow(gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2) + (-rotate) + (-straightPwr);
+                        frontLeft_target = -Math.pow(gamepad1.left_stick_x, 2) - Math.pow(gamepad1.left_stick_y, 2) + (-rotate) + (straightPwr);
+                        frontRight_target = Math.pow(gamepad1.left_stick_x, 2) - Math.pow(gamepad1.left_stick_y, 2) + (rotate) + (straightPwr);
                     } else if (gamepad1.left_stick_x > 0 && -gamepad1.left_stick_y < 0) {
                         // Quadrant IV
-                        cm1_target = Math.pow(gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2) + (rotate) + (-straightPwr);
-                        cm2_target = -Math.pow(gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2) + (-rotate) + (-straightPwr);
-                        cm3_target = Math.pow(gamepad1.left_stick_x, 2) - Math.pow(gamepad1.left_stick_y, 2) + (-rotate) + (straightPwr);
-                        cm4_target = -Math.pow(gamepad1.left_stick_x, 2) - Math.pow(gamepad1.left_stick_y, 2) + (rotate) + (straightPwr);
+                        backLeft_target = Math.pow(gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2) + (rotate) + (-straightPwr);
+                        backRight_target = -Math.pow(gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2) + (-rotate) + (-straightPwr);
+                        frontLeft_target = Math.pow(gamepad1.left_stick_x, 2) - Math.pow(gamepad1.left_stick_y, 2) + (-rotate) + (straightPwr);
+                        frontRight_target = -Math.pow(gamepad1.left_stick_x, 2) - Math.pow(gamepad1.left_stick_y, 2) + (rotate) + (straightPwr);
                     } else {
-                        cm1_target = rotate + straightPwr;
-                        cm2_target = -rotate + straightPwr;
-                        cm3_target = -rotate + straightPwr;
-                        cm4_target = rotate + straightPwr;
+                        backLeft_target = rotate + straightPwr;
+                        backRight_target = -rotate + straightPwr;
+                        frontLeft_target = -rotate + straightPwr;
+                        frontRight_target = rotate + straightPwr;
                     }
                 } else {
                     // Reset our motors
-                    cm1_target = 0;
-                    cm2_target = 0;
-                    cm3_target = 0;
-                    cm4_target = 0;
+                    backLeft_target = 0;
+                    backRight_target = 0;
+                    frontLeft_target = 0;
+                    frontRight_target = 0;
                 }
 
                 // Set the power for our motors (and apply power limiters)
-                cm1.setPower(cm1_target * powerLimiter);
-                cm2.setPower(cm2_target * powerLimiter);
-                cm3.setPower(cm3_target * powerLimiter);
-                cm4.setPower(cm4_target * powerLimiter);
+                backLeft.setPower(backLeft_target * powerLimiter);
+                backRight.setPower(backRight_target * powerLimiter);
+                frontLeft.setPower(frontLeft_target * powerLimiter);
+                frontRight.setPower(frontRight_target * powerLimiter);
 
 
                 if (gamepad1.a) {
@@ -149,10 +149,10 @@ public class MainTeleOp extends LinearOpMode {
 
 
                 // Add telemetry data, so we can observe what is happening on the Driver Station
-//                telemetry.addData("cm1", cm1_target);
-//                telemetry.addData("cm2", cm2_target);
-//                telemetry.addData("cm3", cm3_target);
-//                telemetry.addData("cm4", cm4_target);
+//                telemetry.addData("backLeft", backLeft_target);
+//                telemetry.addData("backRight", backRight_target);
+//                telemetry.addData("frontLeft", frontLeft_target);
+//                telemetry.addData("frontRight", frontRight_target);
 //                telemetry.addData("rotating", rotating);
                 telemetry.addData("servoTargetPos", intakeTargetPos);
                 telemetry.update();
